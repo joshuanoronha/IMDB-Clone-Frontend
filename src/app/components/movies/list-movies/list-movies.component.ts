@@ -49,8 +49,13 @@ export class ListMoviesComponent implements OnInit {
   getGenres(){
     this._genreService.getGenres()
     .subscribe((genres:Array<String>) => {
-      console.log(genres)
-      this.genres = genres
+      const temp = []
+      genres.map(genre => {
+        if (!temp.includes(genre.trim())) {
+          temp.push(genre.trim())
+        }
+      })
+      this.genres = temp
     });
   }
   onSubmit(){
