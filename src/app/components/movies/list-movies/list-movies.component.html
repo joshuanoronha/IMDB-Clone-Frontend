@@ -32,7 +32,7 @@
   </div>
 </div>
 <div class="row">
-  <a class="btn btn-dark col-md-1 col-sm-2 offset-10" [routerLink]="'/movies/new'">Add </a>
+  <a class="btn btn-dark col-md-1 col-sm-2 offset-10" *ngIf="isLoggedIn" [routerLink]="'/movies/new'">Add </a>
 </div>
 <div *ngFor="let movie of movies">
   <div class="card">
