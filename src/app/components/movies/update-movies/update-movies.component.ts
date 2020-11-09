@@ -80,5 +80,15 @@ export class UpdateMoviesComponent implements OnInit {
        
     })
   }
+  deleteMovie(){
+    this._moviesService.deleteMovie(this.id).subscribe(resp => {
+      this._router.navigate(["/movies"])
+    },(err) => {  
+      this.error = err.error.errors || []; 
+      if (typeof err.error==="string"){
+        this.errorMessage = err.error
+      }  
+    })
+  }
 }
 

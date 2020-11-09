@@ -31,4 +31,7 @@ export class MoviesService {
   addMovie(body) {
     return this.http.post(`${this.url}/movie`, body);
   }
+  deleteMovie(id) {
+    return this.http.delete(`${this.url}/movie/${id}`);
+  }
 }
