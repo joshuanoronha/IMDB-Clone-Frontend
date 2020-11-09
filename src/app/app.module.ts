@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CookieModule } from 'ngx-cookie';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import { TokenInterceptor } from './auth/token.interceptor';
 import { AppRoutingModule } from './app-routing.module';
@@ -28,6 +29,7 @@ import { LoginComponent } from './components/login/login.component';
     FormsModule,
     ReactiveFormsModule,
     CookieModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

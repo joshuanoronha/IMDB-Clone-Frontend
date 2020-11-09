@@ -7,9 +7,9 @@ import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: ListMoviesComponent },
-  { path: 'movies/update', component: UpdateMoviesComponent },
-  { path: 'movies/create', component: CreateMoviesComponent },
+  { path: 'movies', component: ListMoviesComponent },
+  { path: 'movies/new', component: CreateMoviesComponent },
+  { path: 'movies/:id', component: UpdateMoviesComponent },
   { path: '**', redirectTo: 'movies' },
 ];
 

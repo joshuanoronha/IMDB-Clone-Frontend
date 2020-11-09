@@ -7,13 +7,27 @@ import { HttpClient } from '@angular/common/http';
 export class MoviesService {
   url = 'http://localhost:3000';
   constructor(private http: HttpClient) { }
-  getMovies() {
-    return this.http.get(`${this.url}/movies`);
+  getMovies(searchParams = {}) {
+    let genreParam = ''
+    console.log(searchParams['genre'])
+    if (searchParams['genre']) {
+      const genres = searchParams['genre']
+      genres.map(genre => {
+        genreParam += `genre[${genre.trim()}]=true&`
+        console.log(genreParam)
+      })
+      delete searchParams['genre']
+    }
+    console.log(genreParam)
+    return this.http.get(`${this.url}/movies?${genreParam}`, { params: searchParams })
+  };
+  getMovieById(id) {
+    return this.http.get(`${this.url}/movie/${id}`);
   }
   updateMovie(body) {
-    return this.http.patch(`${this.url}/movie`,body);
+    return this.http.put(`${this.url}/movie`, body);
   }
   addMovie(body) {
-    return this.http.post(`${this.url}/movie`,body);
+    return this.http.post(`${this.url}/movie`, body);
   }
 }

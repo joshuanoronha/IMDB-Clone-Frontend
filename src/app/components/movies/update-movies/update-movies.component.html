@@ -1,1 +1,40 @@
-<p>update-movies works!</p>
+<p>Update Movie</p>
+<form [formGroup]="updateMoviesForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>
+      Name:
+      {{ name }}
+    </label>
+  </div>
+  <div>
+    <label>
+      Director Name:
+      <input type="text" name="director" formControlName="director">
+    </label>
+  </div>
+  <div formArrayName="genre" *ngFor="let genre of getControls(); let i = index;">
+    <div [formGroupName]="i">
+      <label>
+        Genre {{i+1}}:
+        <input formControlName="name" placeholder="Item name">
+      </label>
+      <button type="button" (click)="deleteGenre(i)">X</button>
+    </div>
+  </div>
+  <button type="button" (click)="addNewGenre()">add</button>
+  <div>
+    <label>
+      99popularity:
+      <input type="number" name="99popularity" formControlName="99popularity">
+    </label>
+  </div>
+  <div>
+    <label>
+      IMDB Score:
+      <input type="number" name="imdb_score" formControlName="imdb_score">
+    </label>
+  </div>
+  <p>
+    <button type="submit" [disabled]="!updateMoviesForm.valid">Submit</button>
+  </p>
+</form>

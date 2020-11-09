@@ -1,2 +1,23 @@
-<p>list-movies works!</p>
-{{ display }}
+<form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>
+      Search:
+      <input type="text" name="search" formControlName="search">
+    </label>
+  </div>
+  <div>
+    <label>
+      Sort By:
+      <select name="sort_by" formControlName="sort_by">
+        <option *ngFor="let column of columns">
+          {{ column }}
+        </option>
+      </select>
+    </label>
+  </div>
+</form>
+<ng-multiselect-dropdown [data]="genres" [(ngModel)]="selectedGenres" [settings]="dropdownSettings">
+</ng-multiselect-dropdown>
+<div *ngFor='let movie of movies'>
+  <div [routerLink]='movie._id'>{{ movie.name }}</div>
+</div>

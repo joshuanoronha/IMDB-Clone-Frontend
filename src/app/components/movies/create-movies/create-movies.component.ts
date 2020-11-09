@@ -9,13 +9,13 @@ import { MoviesService } from '../../../services/movies/movies.service';
 })
 export class CreateMoviesComponent implements OnInit {
   createMoviesForm:FormGroup;  
-  constructor(private _moviesService: MoviesService, private builder: FormBuilder) { }
+  constructor(private _moviesService: MoviesService, private _builder: FormBuilder) { }
   
   ngOnInit(): void {
     this.createMoviesForm = new FormGroup({
       'name': new FormControl('', Validators.required),
       'director': new FormControl(null),
-      'genre': this.builder.array([]),
+      'genre': this._builder.array([]),
       '99popularity': new FormControl(null),
       'imdb_score': new FormControl(null),
     })
@@ -39,7 +39,7 @@ export class CreateMoviesComponent implements OnInit {
   }
   addNewGenre(){
     const genreArray = (this.createMoviesForm.get('genre')as FormArray);
-    genreArray.push(this.builder.group({
+    genreArray.push(this._builder.group({
       name: ['']
     }));
   }
