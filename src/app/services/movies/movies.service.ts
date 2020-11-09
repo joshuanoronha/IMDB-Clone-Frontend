@@ -26,7 +26,7 @@ export class MoviesService {
     return this.http.get(`${this.url}/movie/${id}`);
   }
   updateMovie(body) {
-    return this.http.put(`${this.url}/movie`, body);
+    return this.http.patch(`${this.url}/movie`, body);
   }
   addMovie(body) {
     return this.http.post(`${this.url}/movie`, body);
