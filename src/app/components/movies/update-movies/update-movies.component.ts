@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MoviesService } from '../../../services/movies/movies.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class UpdateMoviesComponent implements OnInit {
   error = []
   errorMessage = ""
   genres: Array<String> = [];
-  constructor(private _moviesService: MoviesService, private _builder: FormBuilder, private _route: ActivatedRoute) { }
+  constructor(private _moviesService: MoviesService, private _builder: FormBuilder, private _route: ActivatedRoute,private _router: Router) { }
 
   ngOnInit(): void {
     this._route.params.subscribe(params => this.id = params.id);
@@ -70,6 +70,7 @@ export class UpdateMoviesComponent implements OnInit {
     body.genre = genreList.length === 0 ? null : genreList
     body.id = this.id
     this._moviesService.updateMovie(this.updateMoviesForm.value).subscribe(resp => {
+      this._router.navigate(["/movies"])
       console.log(resp)
     }, (err) => {  
       this.error = err.error.errors || []; 
