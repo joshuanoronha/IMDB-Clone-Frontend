@@ -1,40 +1,51 @@
-<p>Update Movie</p>
-<form [formGroup]="updateMoviesForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label>
-      Name:
-      {{ name }}
-    </label>
-  </div>
-  <div>
-    <label>
-      Director Name:
-      <input type="text" name="director" formControlName="director">
-    </label>
-  </div>
-  <div formArrayName="genre" *ngFor="let genre of getControls(); let i = index;">
-    <div [formGroupName]="i">
+<div class="container">
+  <h2>Update Movie</h2>
+  <form [formGroup]="updateMoviesForm" (ngSubmit)="onSubmit()">
+    <div class="row">
       <label>
-        Genre {{i+1}}:
-        <input formControlName="name" placeholder="Item name">
+        Name:
+        {{ name }}
       </label>
-      <button type="button" (click)="deleteGenre(i)">X</button>
     </div>
-  </div>
-  <button type="button" (click)="addNewGenre()">add</button>
-  <div>
-    <label>
-      99popularity:
-      <input type="number" name="99popularity" formControlName="99popularity">
+    <div class="row">
+      <label>
+        Director Name:
+      </label>
+      <input type="text" name="director" class="form-control col-12" formControlName="director">
+    </div>
+    <label class="genre-label">
+      Genre :
     </label>
-  </div>
-  <div>
-    <label>
-      IMDB Score:
-      <input type="number" name="imdb_score" formControlName="imdb_score">
-    </label>
-  </div>
-  <p>
-    <button type="submit" [disabled]="!updateMoviesForm.valid">Submit</button>
-  </p>
-</form>
+    <div formArrayName="genre" *ngFor="let genre of getControls(); let i = index;">
+      <div [formGroupName]="i" class="row genre">
+        <input formControlName="name" class="col-11 form-control" placeholder="Item name">
+        <button type="button" class="col-1 btn btn-danger delete-genre" (click)="deleteGenre(i)">x</button>
+      </div>
+    </div>
+    <button type="button" class="margin row col-2 btn btn-dark" (click)="addNewGenre()">Add</button>
+    <div class="margin row">
+      <label>
+        99popularity:
+      </label>
+      <input type="number" name="99popularity" class="col-12 form-control" formControlName="99popularity">
+    </div>
+    <div class="row margin">
+      <label>
+        IMDB Score:
+      </label>
+      <input type="number" name="imdb_score" class="col-12 form-control" formControlName="imdb_score">
+    </div>
+    <div class="margin alert alert-danger" *ngIf="error.length">
+      <div *ngFor="let e of error">{{e.param}} : {{e.msg}}<br>
+      </div>
+    </div>
+    <div class="margin alert alert-danger" *ngIf="errorMessage">
+      {{errorMessage}}
+    </div>
+    <div class="row margin">
+      <button type="submit" class="offset-4 col-4 btn btn-dark">Submit</button>
+    </div>
+    
+  </form>
+
+</div>

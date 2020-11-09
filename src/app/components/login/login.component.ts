@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UsersService } from '../../services/users/users.service';
 import { CookieService } from 'ngx-cookie';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,8 @@ import { CookieService } from 'ngx-cookie';
 })
 export class LoginComponent implements OnInit {
   loginForm:FormGroup;  
-  constructor(private usersService: UsersService,private cookieService: CookieService) { }
+  errorMessage = ""
+  constructor(private _usersService: UsersService,private _cookieService: CookieService,private _router:Router) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -21,9 +23,12 @@ export class LoginComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.loginForm.value);
-    this.usersService.login(this.loginForm.value).subscribe(resp => {
-      console.log(resp)
-      return this.cookieService.put('token',resp['token']);
+    this.errorMessage = ""
+    this._usersService.login(this.loginForm.value).subscribe(resp => {
+      this._cookieService.put('token',resp['token']);
+      this._router.navigate(["/movies"])
+    }, error => {
+      this.errorMessage = "You are not Authorized to Login"
     });
   }
 }

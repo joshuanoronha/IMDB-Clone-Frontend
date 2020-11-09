@@ -9,14 +9,16 @@ import { MoviesService } from '../../../services/movies/movies.service';
   styleUrls: ['./update-movies.component.css']
 })
 export class UpdateMoviesComponent implements OnInit {
-  updateMoviesForm:FormGroup;  
+  updateMoviesForm: FormGroup;
   id: String;
   name: String;
+  error = []
+  errorMessage = ""
   genres: Array<String> = [];
-  constructor(private _moviesService:MoviesService, private _builder: FormBuilder, private _route: ActivatedRoute) { }
+  constructor(private _moviesService: MoviesService, private _builder: FormBuilder, private _route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this._route.params.subscribe( params => this.id = params.id);
+    this._route.params.subscribe(params => this.id = params.id);
     this.updateMoviesForm = new FormGroup({
       'director': new FormControl(null),
       'genre': this._builder.array([]),
@@ -30,10 +32,10 @@ export class UpdateMoviesComponent implements OnInit {
       this.updateMoviesForm.controls['imdb_score'].setValue(resp['imdb_score']);
       this.updateMoviesForm.controls['99popularity'].setValue(resp['99popularity']);
       this.genres = resp['genre']
-      this.genres.map(genre=>{
+      this.genres.map(genre => {
         this.addNewGenre(genre)
       })
-      if (this.genres.length===0){
+      if (this.genres.length === 0) {
         this.addNewGenre();
       }
     });
@@ -41,30 +43,41 @@ export class UpdateMoviesComponent implements OnInit {
   getControls() {
     return (this.updateMoviesForm.get('genre') as FormArray).controls;
   }
-  addNewGenre(defaultGenre:String = ''){
-    const genreArray = (this.updateMoviesForm.get('genre')as FormArray);
+  addNewGenre(defaultGenre: String = '') {
+    const genreArray = (this.updateMoviesForm.get('genre') as FormArray);
     genreArray.push(this._builder.group({
       name: [defaultGenre]
     }));
   }
-  deleteGenre(i:number){
-    const genreArray = (this.updateMoviesForm.get('genre')as FormArray);
+  deleteGenre(i: number) {
+    const genreArray = (this.updateMoviesForm.get('genre') as FormArray);
     genreArray.removeAt(i);
-    if(genreArray.length===0){
+    if (genreArray.length === 0) {
       this.addNewGenre();
     }
   }
   onSubmit() {
+    this.error = [];
+    this.errorMessage = ""
     let body = this.updateMoviesForm.value
     const genreList = []
-    this.updateMoviesForm.value['genre'].map(genre=>{
-      if (genre.name)
-        genreList.push(genre.name)
-    })
-    body.genre = genreList.length===0? null: genreList
+    if (this.updateMoviesForm.value['genre']) {
+      this.updateMoviesForm.value['genre'].map(genre => {
+        if (genre.name)
+          genreList.push(genre.name)
+      })
+    }
+    body.genre = genreList.length === 0 ? null : genreList
     body.id = this.id
     this._moviesService.updateMovie(this.updateMoviesForm.value).subscribe(resp => {
       console.log(resp)
-    });
+    }, (err) => {  
+      this.error = err.error.errors || []; 
+      if (typeof err.error==="string"){
+        this.errorMessage = err.error
+      }
+       
+    })
   }
 }
+

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { MoviesService } from '../../../services/movies/movies.service';
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-create-movies',
@@ -9,11 +10,13 @@ import { MoviesService } from '../../../services/movies/movies.service';
 })
 export class CreateMoviesComponent implements OnInit {
   createMoviesForm:FormGroup;  
-  constructor(private _moviesService: MoviesService, private _builder: FormBuilder) { }
+  error = []
+  errorMessage = ""
+  constructor(private _moviesService: MoviesService, private _builder: FormBuilder, private _router: Router) { }
   
   ngOnInit(): void {
     this.createMoviesForm = new FormGroup({
-      'name': new FormControl('', Validators.required),
+      'name': new FormControl(null, Validators.required),
       'director': new FormControl(null),
       'genre': this._builder.array([]),
       '99popularity': new FormControl(null),
@@ -23,6 +26,8 @@ export class CreateMoviesComponent implements OnInit {
     this.addNewGenre();
   }
   onSubmit(){
+    this.error = [];
+    this.errorMessage = ""
     console.log(this.createMoviesForm.value)
     let body = this.createMoviesForm.value
     const genreList = []
@@ -31,7 +36,13 @@ export class CreateMoviesComponent implements OnInit {
     })
     body.genre = genreList
     this._moviesService.addMovie(body).subscribe(value =>{
+      this._router.navigate(["/movies"])
       console.log(value)
+    }, (err) => {  
+      this.error = err.error.errors || []; 
+      if (typeof err.error==="string"){
+        this.errorMessage = err.error
+      }
     })
   }
   getControls() {

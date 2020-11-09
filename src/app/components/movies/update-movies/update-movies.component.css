@@ -1,0 +1,15 @@
+h2 {
+  text-align: center;
+  margin-top: 20px;
+}
+.genre-label{
+  margin-left: -14px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+.genre{
+  padding-top: 10px;
+}
+.margin{
+  margin-top: 10px;
+}

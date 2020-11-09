@@ -1,19 +1,25 @@
-<h1>Login</h1>
+<div class="container">
+<h2 class="header margin">Login</h2>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div>
-    <label>
+    <label class="row margin">
       Email:
-      <input type="email" name="email" formControlName="email">
     </label>
-  </div>
-  <div>
 
-    <label>
-      Password:
-      <input type="password" name="password" formControlName="password">
-    </label>
+      <input type="email" class="row form-control" name="email" formControlName="email">
   </div>
-  <p>
-    <button type="submit" [disabled]="!loginForm.valid">Submit</button>
-  </p>
+  <div >
+
+    <label class="row margin">
+      Password:
+    </label>
+      <input type="password" class="row form-control" name="password" formControlName="password">
+  </div>
+  <div *ngIf="errorMessage" class="row margin alert alert-danger">
+    {{errorMessage}}
+  </div>
+  <div class="row">
+    <button type="submit" class="btn btn-dark margin col-4 offset-4">Submit</button>
+  </div>
 </form>
+</div>

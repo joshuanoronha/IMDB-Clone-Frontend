@@ -1,23 +1,60 @@
 <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label>
-      Search:
-      <input type="text" name="search" formControlName="search">
-    </label>
-  </div>
-  <div>
-    <label>
-      Sort By:
-      <select name="sort_by" formControlName="sort_by">
+  <div class="row">
+    <span class="col-5 offset-1">
+      <input type="text" name="search" placeholder="Search for Movie or Director" class="form-control mb-6 mr-sm-6"
+        formControlName="search">
+    </span>
+    <span class="col-3">
+      <select name="sort_by" class="form-control dropdown-toggle" formControlName="sort_by">
         <option *ngFor="let column of columns">
           {{ column }}
         </option>
       </select>
-    </label>
+    </span>
+    <span class="col-2">
+      <select name="order_by" class="form-control dropdown-toggle" formControlName="order_by">
+        <option>
+          Ascending
+        </option>
+        <option>
+          Decending
+        </option>
+      </select>
+    </span>
+    <button type="submit" class="col-1 btn btn-dark"><i class="fa fa-search" aria-hidden="true"></i></button>
   </div>
 </form>
-<ng-multiselect-dropdown [data]="genres" [(ngModel)]="selectedGenres" [settings]="dropdownSettings">
-</ng-multiselect-dropdown>
-<div *ngFor='let movie of movies'>
-  <div [routerLink]='movie._id'>{{ movie.name }}</div>
+<div class="row filter">
+  <div class="col-6 offset-3">
+    <ng-multiselect-dropdown [data]="genres" [(ngModel)]="selectedGenres" [settings]="dropdownSettings"
+      (onSelect)="onSubmit()" (onDeSelect)="onSubmit()">
+    </ng-multiselect-dropdown>
+  </div>
+</div>
+<div class="row">
+  <a class="btn btn-dark col-md-1 col-sm-2 offset-10" [routerLink]="'/movies/new'">Add </a>
+</div>
+<div *ngFor="let movie of movies">
+  <div class="card">
+    <div class="card-header">
+      <span>{{movie.name}}</span>
+      <a class="btn btn-light float-right" *ngIf="isLoggedIn" id="edit" [routerLink]='movie._id'><i class="fa fa-pencil-square-o"
+          aria-hidden="true"></i></a>
+    </div>
+    <div class="card-body">
+        <span class="btn score"
+          [ngClass]="{'btn-success': movie['99popularity']>=70, 'btn-warning': movie['99popularity']<70 && movie['99popularity']>=40, 'btn-danger': movie['99popularity']<40 }">
+          {{ movie['99popularity'] }}
+        </span>
+        <span class="card-text">Director - {{ movie.director }}
+        </span>
+      <div>
+        <span *ngFor="let tag of movie.genre" class="tag btn btn-secondary">{{ tag }}</span>
+        <span class="float-right imdb-score">
+          {{ movie['imdb_score'] }}
+          <i class="fa fa-star" aria-hidden="true"></i>
+        </span>
+      </div>
+    </div>
+  </div>
 </div>
