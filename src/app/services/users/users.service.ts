@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class UsersService {
-  url = 'http://localhost:3000'//'http://murmuring-shore-39160.herokuapp.com'
+  url = 'http://murmuring-shore-39160.herokuapp.com'
   constructor(private http: HttpClient) { }
   login(data) {
     return this.http.post(`${this.url}/login`, data);
