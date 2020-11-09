@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class MoviesService {
-  url = 'http://localhost:3000';
+  url = 'http://murmuring-shore-39160.herokuapp.com'
   constructor(private http: HttpClient) { }
   getMovies(searchParams = {}) {
     let genreParam = ''
